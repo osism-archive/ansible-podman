@@ -1,0 +1,58 @@
+---
+dist: bionic
+language: python
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+
+before_install:
+  - openssl aes-256-cbc -K $encrypted_2515e5065210_key -iv $encrypted_2515e5065210_iv -in molecule/default/clouds.yml.enc -out molecule/default/clouds.yml -d
+
+install:
+  - pip install -r requirements.txt
+
+jobs:
+  include:
+    - stage: run tests
+      script: tox -e $TOX_ENV
+      env:
+        - TOX_ENV=ansible27-xenial
+      python: 3.6
+    - stage: run tests
+      script: tox -e $TOX_ENV
+      env:
+        - TOX_ENV=ansible27-bionic
+      python: 3.6
+    - stage: run tests
+      script: tox -e $TOX_ENV
+      env:
+        - TOX_ENV=ansible28-xenial
+      python: 3.6
+    - stage: run tests
+      script: tox -e $TOX_ENV
+      env:
+        - TOX_ENV=ansible28-bionic
+      python: 3.6
+    - stage: run tests
+      script: tox -e $TOX_ENV
+      env:
+        - TOX_ENV=ansible29-xenial
+      python: 3.6
+    - stage: run tests
+      script: tox -e $TOX_ENV
+      env:
+        - TOX_ENV=ansible29-bionic
+      python: 3.6
+    - stage: post processing
+      python: 3.6
+      script: bash scripts/trigger-travis.sh osism docker-osism-ansible $TRAVIS_ACCESS_TOKEN "triggered by $TRAVIS_REPO_SLUG ($TRAVIS_COMMIT)"
+      if: branch = "master" AND type = "push"
+
+notifications:
+  irc:
+    channels:
+      - "irc.freenode.org#osism"
+    template:
+      - "%{result} %{repository_slug}: %{commit_subject} %{build_url}"
+    skip_join: true

@@ -1,0 +1,3 @@
+---
+ansible_role_name: podman
+travis_decrypt_key: 2515e5065210

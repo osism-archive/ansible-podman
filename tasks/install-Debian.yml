@@ -1,0 +1,35 @@
+---
+- name: Install apt-transport-https package
+  apt:
+    name: apt-transport-https
+    state: present
+  become: true
+  when: podman_configure_repository|bool
+  changed_when: false
+
+- name: Add repository gpg key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "{{ podman_debian_repository_key }}"
+  become: true
+  when: podman_configure_repository|bool
+
+- name: Add repository
+  apt_repository:
+    repo: "{{ podman_debian_repository }}"
+    state: present
+    update_cache: yes
+  become: true
+  when: podman_configure_repository|bool
+
+- name: Install uidmap package
+  apt:
+    name: uidmap
+    state: present
+  become: true
+
+- name: Install podman package
+  apt:
+    name: "{{ podman_package_name }}"
+    state: present
+  become: true
