@@ -12,5 +12,5 @@ podman_package_name: podman
 podman_configure_repository: no
 
 podman_debian_repository_arch: amd64
-podman_debian_repository_key: 018BA5AD9DF57A4448F0E6CF8BECF1637AD8C79D
-podman_debian_repository: "deb [ arch={{ podman_debian_repository_arch }} ] http://ppa.launchpad.net/projectatomic/ppa/ubuntu {{ ansible_distribution_release }} main"
+podman_debian_repository_key: "https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ansible_distribution_version }}/Release.key"
+podman_debian_repository: "deb [ arch={{ podman_debian_repository_arch }} ] https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_{{ ansible_distribution_version }}/ /"
