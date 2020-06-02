@@ -23,9 +23,6 @@
 
 - name: Install required packages
   apt:
-    name: "{{ item }}"
+    name: ['uidmap', '{{ podman_package_name }}']
     state: present
   become: true
-  with_items:
-    - uidmap
-    - "{{ podman_package_name }}"
