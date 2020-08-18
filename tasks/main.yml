@@ -1,3 +1,0 @@
----
-- name: Include action specific tasks
-  include: "{{ podman_action }}.yml"
